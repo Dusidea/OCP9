@@ -13,8 +13,6 @@ const Slider = () => {
     new Date(evtA.date) < new Date(evtB.date) ? -1 : 1
   );
 
-  console.log(userInteraction);
-
   // gestion du défilement auto
   useEffect(() => {
     // pas de timer ni de défilement auto si données vides ou interaction manuelle de l'utilisateur
