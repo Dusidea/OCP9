@@ -7,20 +7,43 @@ import "./style.scss";
 const Slider = () => {
   const { data } = useData();
   const [index, setIndex] = useState(0);
+  const [userInteraction, setUserInteraction] = useState(false);
+
   const byDateDesc = data?.focus.sort((evtA, evtB) =>
     new Date(evtA.date) < new Date(evtB.date) ? -1 : 1
   );
 
-  const nextCard = () => {
-    setTimeout(
-      () => setIndex(index < byDateDesc.length - 1 ? index + 1 : 0),
-      5000
-    );
-  };
-  useEffect(() => {
-    nextCard();
-  });
+  console.log(userInteraction);
 
+  // gestion du défilement auto
+  useEffect(() => {
+    // pas de timer ni de défilement auto si données vides ou interaction manuelle de l'utilisateur
+    if (!byDateDesc || byDateDesc.length === 0 || userInteraction) {
+      return undefined;
+    }
+
+    // défilement automatique du slider basé sur le temps
+    const timeout = setTimeout(() => {
+      setIndex((prevIndex) =>
+        prevIndex < byDateDesc.length - 1 ? prevIndex + 1 : 0
+      );
+    }, 5000);
+
+    return () => clearTimeout(timeout);
+  }, [index, userInteraction, byDateDesc?.length]);
+
+  // permettre la reprise du défilement auto après une interaction, avec délai
+  useEffect(() => {
+    if (!userInteraction) return undefined;
+
+    const interactionTimeout = setTimeout(() => {
+      setUserInteraction(false);
+    }, 10000);
+
+    return () => clearTimeout(interactionTimeout);
+  }, [userInteraction]);
+
+  // génération du slider dans le DOM
   return (
     <div className="SlideCardList">
       {byDateDesc?.map((event, idx) => (
@@ -42,12 +65,16 @@ const Slider = () => {
       ))}
       <div className="SlideCard__paginationContainer">
         <div className="SlideCard__pagination">
-          {byDateDesc.map((event, radioIdx) => (
+          {byDateDesc?.map((event, radioIdx) => (
             <input
               key={`${event.id}`}
               type="radio"
               name="radio-button"
               checked={index === radioIdx}
+              onChange={() => {
+                setUserInteraction(true);
+                setIndex(radioIdx);
+              }}
             />
           ))}
         </div>
@@ -55,4 +82,5 @@ const Slider = () => {
     </div>
   );
 };
+
 export default Slider;
