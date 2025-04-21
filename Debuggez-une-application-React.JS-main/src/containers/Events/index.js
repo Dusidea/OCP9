@@ -25,16 +25,11 @@ const EventList = () => {
     currentPage * PER_PAGE
   );
 
-  console.log("XXX pour de faux type is ", type);
-  console.log("XXXX filteredEvents en intro ", filteredEvents);
-
   const changeType = (evtType) => {
     setCurrentPage(1);
     setType(evtType);
-    console.log("XXX type was changed");
-    console.log("XXX type is", evtType);
   };
-  // const pageNumber = Math.floor((filteredEvents?.length || 0) / PER_PAGE) + 1;
+
   const totalPages = Math.ceil(filteredEvents.length / PER_PAGE);
   const typeList = new Set(data?.events.map((event) => event.type));
 
