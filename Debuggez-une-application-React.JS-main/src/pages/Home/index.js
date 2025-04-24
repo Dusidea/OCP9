@@ -1,4 +1,5 @@
-// import { useState } from "react";
+import React, { useContext } from "react";
+import DataContext from "../../contexts/DataContext";
 import Menu from "../../containers/Menu";
 import ServiceCard from "../../components/ServiceCard";
 import EventCard from "../../components/EventCard";
@@ -11,11 +12,14 @@ import Logo from "../../components/Logo";
 import Icon from "../../components/Icon";
 import Form from "../../containers/Form";
 import Modal from "../../containers/Modal";
-import { useData } from "../../contexts/DataContext";
+import useLastEvent from "../../helpers/UseLastEvent";
 
 const Page = () => {
-  const { last } = useData();
-  console.log(useData);
+  const { data } = useContext(DataContext);
+  const last = useLastEvent();
+
+  // avec cette vérification on empêche la tentative de rendu si les données n'ont pas chargé
+  if (!data?.events) return <div>Chargement des événements</div>;
 
   // const [modalContentType, setModalContentType] = useState(null);
   // const [isModalOpen, setIsModalOpen] = useState(false);
@@ -152,6 +156,7 @@ const Page = () => {
             label="boom"
           />
         </div>
+
         <div className="col contact">
           <h3>Contactez-nous</h3>
           <address>45 avenue de la République, 75000 Paris</address>
