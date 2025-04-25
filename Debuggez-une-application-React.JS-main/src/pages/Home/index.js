@@ -18,9 +18,6 @@ const Page = () => {
   const { data } = useContext(DataContext);
   const last = useLastEvent();
 
-  // avec cette vérification on empêche la tentative de rendu si les données n'ont pas chargé
-  if (!data?.events) return <div>Chargement des événements</div>;
-
   // const [modalContentType, setModalContentType] = useState(null);
   // const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -148,13 +145,18 @@ const Page = () => {
       <footer className="row">
         <div className="col presta">
           <h3>Notre derniére prestation</h3>
-          <EventCard
-            imageSrc={last?.cover}
-            title={last?.title}
-            date={new Date(last?.date)}
-            small
-            label="boom"
-          />
+          {/* avec cette vérification on empêche la tentative de rendu si les données n'ont pas chargé */}
+          {!data?.events ? (
+            <div>Chargement des événements</div>
+          ) : (
+            <EventCard
+              imageSrc={last?.cover}
+              title={last?.title}
+              date={new Date(last?.date)}
+              small
+              label="boom"
+            />
+          )}
         </div>
 
         <div className="col contact">

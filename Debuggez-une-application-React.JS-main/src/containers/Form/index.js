@@ -36,14 +36,14 @@ const Form = ({ onSuccess, onError }) => {
       setSending(true);
 
       // ajout de formData pour récupérer les valeurs des champs
-      const formData = new FormData(evt.target);
-      const data = {
-        nom: formData.get("nom"),
-        prenom: formData.get("prenom"),
-        personnel_entreprise: formData.get("personnel_entreprise"),
-        email: formData.get("email"),
-        message: formData.get("message"),
-      };
+      // const formData = new FormData(evt.target);
+      // const data = {
+      //   nom: formData.get("nom"),
+      //   prenom: formData.get("prenom"),
+      //   personnel_entreprise: formData.get("personnel_entreprise"),
+      //   email: formData.get("email"),
+      //   message: formData.get("message"),
+      // };
 
       // const errors = validateForm(data);
       // if (Object.keys(errors).length > 0) {
@@ -55,7 +55,7 @@ const Form = ({ onSuccess, onError }) => {
       // We try to call mockContactApi
       try {
         // on passe data en argument de l'appel à l'API (mais l'API n'en prend pas)
-        await mockContactApi(data);
+        await mockContactApi();
         setSending(false);
         // ajout du cas succès
         onSuccess(true);

@@ -39,7 +39,7 @@ export const DataProvider = ({ children }) => {
         error,
       }}
     >
-      {data ? children : <div>Chargement...</div>}
+      {children}
     </DataContext.Provider>
   );
 };
